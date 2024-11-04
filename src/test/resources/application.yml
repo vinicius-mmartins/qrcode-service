@@ -1,7 +1,4 @@
 
-server:
-  port: 8080
-
 spring:
   flyway:
     enable: true
@@ -10,12 +7,12 @@ spring:
     schemas: qrcode
   jpa:
     show-sql: false
-#    properties:
-#      hibernate:
-#        default_schema: qrcode
-  messages:
-    basename: classpath:messages
-    encoding: UTF-8
+    #    properties:
+    #      hibernate:
+    #        default_schema: qrcode
+    messages:
+      basename: classpath:messages
+      encoding: UTF-8
 
 qrcode:
   immediate:
