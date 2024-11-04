@@ -6,6 +6,6 @@ import lombok.Builder;
 public record ErrorDTO(
         String code,
         String message,
-        String arg
+        String msgArg
 ) {
 }

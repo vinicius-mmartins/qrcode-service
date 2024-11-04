@@ -39,7 +39,7 @@ public class CustomExceptionHandler {
                 .map(fieldError -> ErrorDTO.builder()
                         .code(ErrorCodeEnum.REQUIRED_FIELD.name())
                         .message(fieldError.getDefaultMessage())
-                        .arg(fieldError.getField())
+                        .msgArg(fieldError.getField())
                         .build())
                 .toList();
         return buildErrorsResponse(errors, HttpStatus.BAD_REQUEST);
@@ -52,7 +52,7 @@ public class CustomExceptionHandler {
     }
 
     private String buildErrorMessage(ErrorDTO error) {
-        return messageSource.getMessage(error.message(), new Object[]{error.arg()}, Locale.getDefault());
+        return messageSource.getMessage(error.message(), new Object[]{error.msgArg()}, Locale.getDefault());
     }
 
     public record Error(
