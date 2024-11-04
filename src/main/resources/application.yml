@@ -1,0 +1,10 @@
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d{dd-MM-yyyy HH:mm:ss.SSS} %highlight(%22([%.20t]) %-5level %logger{36}: %X %msg) %n %ex{full}"
+    file: "%d{dd-MM-yyyy HH:mm:ss.SSS} %22([%.20t]) %-5level %logger{36}: %X %msg %n %ex{full}"
