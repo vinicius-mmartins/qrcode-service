@@ -45,6 +45,11 @@ public class CustomExceptionHandler {
         return buildErrorsResponse(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<List<Error>> handleCustomException(CustomException e) {
+        return buildErrorsResponse(List.of(e.getErrorDTO()), e.getHttpStatus());
+    }
+
     private ResponseEntity<List<Error>> buildErrorsResponse(List<ErrorDTO> errors, HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(
                 errors.stream().map(error -> new Error(error.code(), buildErrorMessage(error))).toList()
