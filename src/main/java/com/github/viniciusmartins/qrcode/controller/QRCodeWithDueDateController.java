@@ -1,12 +1,14 @@
 package com.github.viniciusmartins.qrcode.controller;
 
 import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
+import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateResponse;
 import com.github.viniciusmartins.qrcode.service.QRCodeService;
 import jakarta.validation.Valid;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +25,10 @@ public class QRCodeWithDueDateController {
     private final QRCodeService qrCodeService;
 
     @PostMapping
-    public void registerQrcode(@RequestBody @Valid QRCodeWithDueDateRequest request) {
+    public ResponseEntity<QRCodeWithDueDateResponse> registerQrcode(@RequestBody @Valid QRCodeWithDueDateRequest request) {
         @Cleanup var mdc = MDC.putCloseable(LOG_TAG, request.txid());
         log.info("Begin register QRCode");
-        qrCodeService.registerWithDueDate(request);
+        return ResponseEntity.ok(qrCodeService.registerWithDueDate(request));
     }
 
 }

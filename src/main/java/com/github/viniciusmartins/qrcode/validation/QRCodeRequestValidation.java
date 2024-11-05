@@ -73,4 +73,6 @@ public class QRCodeRequestValidation {
         }
     }
 
+    //todo: validação status
+
 }

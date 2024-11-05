@@ -4,19 +4,19 @@ spring:
     enable: true
     baseline-on-migrate: true
     locations: classpath:db.migration
-    schemas: qrcode
+#    schemas: qrcode
   jpa:
     show-sql: false
-    #    properties:
-    #      hibernate:
-    #        default_schema: qrcode
+#    properties:
+#      hibernate:
+#        default_schema: qrcode
     messages:
       basename: classpath:messages
       encoding: UTF-8
 
 qrcode:
   immediate:
-    expiration-hours: 48
+    expiration-days: 2
 
 logging:
   level:

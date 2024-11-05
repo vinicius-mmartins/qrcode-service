@@ -1,11 +1,7 @@
 package com.github.viniciusmartins.qrcode.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.github.viniciusmartins.qrcode.entity.enums.StatusEnum;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +33,8 @@ public class QRCode {
     @Column(name = "description")
     private String description;
     @Column(name = "status")
-    private String status;
+    @Enumerated(value = EnumType.STRING)
+    private StatusEnum status;
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
     @Column(name = "expiration_date")
