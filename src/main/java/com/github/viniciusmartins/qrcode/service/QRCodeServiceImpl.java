@@ -69,7 +69,7 @@ public class QRCodeServiceImpl implements QRCodeService {
                     log.error("QRCode already exists with txid: {}", qr.getTxid());
                     throw new UnprocessableEntityException(
                             ErrorDTO.builder()
-                                    .code(ErrorCodeEnum.ALREADY_REGISTERED.name())
+                                    .code(ErrorCodeEnum.ALREADY_REGISTERED)
                                     .message("entity.already.registered")
                                     .msgArg("QRCode")
                                     .build()

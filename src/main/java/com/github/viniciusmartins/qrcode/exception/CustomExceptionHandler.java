@@ -26,7 +26,7 @@ public class CustomExceptionHandler {
     public ResponseEntity<List<Error>> handleUnexpectedException(Exception e) {
         log.error("ExceptionHandler: Unexpected exception", e);
         return buildErrorsResponse(List.of(ErrorDTO.builder()
-                        .code(ErrorCodeEnum.INTERNAL_SERVER_ERROR.name())
+                        .code(ErrorCodeEnum.INTERNAL_SERVER_ERROR)
                         .message("internal.server.error")
                         .build()),
                 HttpStatus.INTERNAL_SERVER_ERROR
@@ -37,7 +37,7 @@ public class CustomExceptionHandler {
     public ResponseEntity<List<Error>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<ErrorDTO> errors = e.getFieldErrors().stream()
                 .map(fieldError -> ErrorDTO.builder()
-                        .code(ErrorCodeEnum.REQUIRED_FIELD.name())
+                        .code(ErrorCodeEnum.REQUIRED_FIELD)
                         .message(fieldError.getDefaultMessage())
                         .msgArg(fieldError.getField())
                         .build())
@@ -52,7 +52,7 @@ public class CustomExceptionHandler {
 
     private ResponseEntity<List<Error>> buildErrorsResponse(List<ErrorDTO> errors, HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(
-                errors.stream().map(error -> new Error(error.code(), buildErrorMessage(error))).toList()
+                errors.stream().map(error -> new Error(error.code().name(), buildErrorMessage(error))).toList()
         );
     }
 

@@ -24,7 +24,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
             log.error("Invalid request value format: {}", request.value());
             throw new BadRequestException(
                     ErrorDTO.builder()
-                            .code(ErrorCodeEnum.INVALID_FIELD.name())
+                            .code(ErrorCodeEnum.INVALID_FIELD)
                             .message("invalid.field.numeric.format")
                             .msgArg("value")
                             .build()
@@ -39,7 +39,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
             log.error("Invalid request value, less then zero : {}", request.value());
             throw new BadRequestException(
                     ErrorDTO.builder()
-                            .code(ErrorCodeEnum.INVALID_FIELD.name())
+                            .code(ErrorCodeEnum.INVALID_FIELD)
                             .message("invalid.field.numeric.range")
                             .msgArg("value")
                             .build()
@@ -55,7 +55,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
             log.error("Invalid request date format: {}", request.value());
             throw new BadRequestException(
                     ErrorDTO.builder()
-                            .code(ErrorCodeEnum.INVALID_FIELD.name())
+                            .code(ErrorCodeEnum.INVALID_FIELD)
                             .message("invalid.field.date.format")
                             .msgArg("value")
                             .build()
@@ -70,7 +70,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
             log.error("Invalid request date, not in the future: {}", request.dueDate());
             throw new BadRequestException(
                     ErrorDTO.builder()
-                            .code(ErrorCodeEnum.INVALID_FIELD.name())
+                            .code(ErrorCodeEnum.INVALID_FIELD)
                             .message("invalid.field.date.range")
                             .msgArg(fieldName)
                             .build()
@@ -87,7 +87,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
                 log.error("Invalid request status: {}", request.status());
                 throw new BadRequestException(
                         ErrorDTO.builder()
-                                .code(ErrorCodeEnum.INVALID_FIELD.name())
+                                .code(ErrorCodeEnum.INVALID_FIELD)
                                 .message("invalid.field.status")
                                 .build()
                 );
