@@ -1,16 +1,16 @@
 package com.github.viniciusmartins.qrcode.validation;
 
-import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
+import com.github.viniciusmartins.qrcode.dto.IQRCodeRequest;
 
 public interface QRCodeRequestValidation {
 
-    void validateValueFormat(QRCodeWithDueDateRequest request);
+    void validateValueFormat(IQRCodeRequest request);
 
-    void validateValueGreaterThenZero(QRCodeWithDueDateRequest request);
+    void validateValueGreaterThenZero(IQRCodeRequest request);
 
-    void validateDateFormat(QRCodeWithDueDateRequest request);
+    void validateDateFormat(IQRCodeRequest request);
 
-    void validateFutureDate(QRCodeWithDueDateRequest request, String fieldName);
+    void validateFutureDate(IQRCodeRequest request, String fieldName);
 
-    void validadeStatus(QRCodeWithDueDateRequest request);
+    void validadeStatus(IQRCodeRequest request);
 }

@@ -1,7 +1,7 @@
 package com.github.viniciusmartins.qrcode.validation;
 
 import com.github.viniciusmartins.qrcode.dto.ErrorDTO;
-import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
+import com.github.viniciusmartins.qrcode.dto.IQRCodeRequest;
 import com.github.viniciusmartins.qrcode.entity.enums.StatusEnum;
 import com.github.viniciusmartins.qrcode.exception.BadRequestException;
 import com.github.viniciusmartins.qrcode.exception.ErrorCodeEnum;
@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
 public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
 
     @Override
-    public void validateValueFormat(QRCodeWithDueDateRequest request) {
+    public void validateValueFormat(IQRCodeRequest request) {
         try {
             new BigDecimal(request.value());
         } catch (NumberFormatException e) {
@@ -33,7 +33,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
     }
 
     @Override
-    public void validateValueGreaterThenZero(QRCodeWithDueDateRequest request) {
+    public void validateValueGreaterThenZero(IQRCodeRequest request) {
         var value = new BigDecimal(request.value());
         if (value.compareTo(BigDecimal.ZERO) < 0) {
             log.error("Invalid request value, less then zero : {}", request.value());
@@ -48,7 +48,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
     }
 
     @Override
-    public void validateDateFormat(QRCodeWithDueDateRequest request) {
+    public void validateDateFormat(IQRCodeRequest request) {
         try {
             LocalDate.parse(request.dueDate());
         } catch (DateTimeParseException e) {
@@ -64,7 +64,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
     }
 
     @Override
-    public void validateFutureDate(QRCodeWithDueDateRequest request, String fieldName) {
+    public void validateFutureDate(IQRCodeRequest request, String fieldName) {
         var date = LocalDate.parse(request.dueDate());
         if (date.isBefore(LocalDate.now())) {
             log.error("Invalid request date, not in the future: {}", request.dueDate());
@@ -79,7 +79,7 @@ public class QRCodeRequestValidationImpl implements QRCodeRequestValidation {
     }
 
     @Override
-    public void validadeStatus(QRCodeWithDueDateRequest request) {
+    public void validadeStatus(IQRCodeRequest request) {
         if (request.status() != null) {
             try {
                 StatusEnum.valueOf(request.status());

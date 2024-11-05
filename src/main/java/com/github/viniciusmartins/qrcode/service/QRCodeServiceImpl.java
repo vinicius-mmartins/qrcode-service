@@ -1,8 +1,6 @@
 package com.github.viniciusmartins.qrcode.service;
 
-import com.github.viniciusmartins.qrcode.dto.ErrorDTO;
-import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
-import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateResponse;
+import com.github.viniciusmartins.qrcode.dto.*;
 import com.github.viniciusmartins.qrcode.entity.QRCode;
 import com.github.viniciusmartins.qrcode.entity.enums.StatusEnum;
 import com.github.viniciusmartins.qrcode.exception.ErrorCodeEnum;
@@ -29,27 +27,40 @@ public class QRCodeServiceImpl implements QRCodeService {
     public QRCodeServiceImpl(QRCodeRequestValidationImpl requestValidation,
                              QRCodeRepository qrCodeRepository,
                              @Value("${qrcode.immediate.expiration-days}")
-                         Integer expirationDays) {
+                             Integer expirationDays) {
         this.requestValidation = requestValidation;
         this.qrCodeRepository = qrCodeRepository;
         this.expirationDays = expirationDays;
     }
 
     @Override
-    public QRCodeWithDueDateResponse registerWithDueDate(QRCodeWithDueDateRequest request) {
+    public QRCodeResponse register(QRCodeRequest request) {
         validateQrCode(request);
+        QRCode qrcode = QRCodeMapper.toEntity(request);
+        checkIfPresent(qrcode);
+        qrcode = setDefaultAndSave(qrcode);
+        return QRCodeMapper.toResponse(qrcode);
+    }
+
+    @Override
+    public QRCodeWithDueDateResponse registerWithDueDate(QRCodeWithDueDateRequest request) {
+        validateQrCodeWithDueDate(request);
         QRCode qrcode = QRCodeMapper.toEntity(request);
         checkIfPresent(qrcode);
         qrcode = setDefaultAndSave(qrcode);
         return QRCodeMapper.toDueDateResponse(qrcode);
     }
 
-    private void validateQrCode(QRCodeWithDueDateRequest request) {
+    private void validateQrCode(IQRCodeRequest request) {
         requestValidation.validateValueFormat(request);
         requestValidation.validateValueGreaterThenZero(request);
+        requestValidation.validadeStatus(request);
+    }
+
+    private void validateQrCodeWithDueDate(IQRCodeRequest request) {
+        validateQrCode(request);
         requestValidation.validateDateFormat(request);
         requestValidation.validateFutureDate(request, "dueDate");
-        requestValidation.validadeStatus(request);
     }
 
     private void checkIfPresent(QRCode qrcode) {
