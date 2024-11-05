@@ -26,7 +26,7 @@ public class QRCode {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "txid", nullable = false)
+    @Column(name = "txid", nullable = false, unique = true)
     private String txid;
     @Column(name = "qrcode_value", nullable = false)
     private BigDecimal value;
@@ -37,7 +37,7 @@ public class QRCode {
     private StatusEnum status;
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-    @Column(name = "expiration_date")
+    @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
     @Column(name = "due_date")
     private LocalDate dueDate;
