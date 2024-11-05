@@ -34,7 +34,7 @@ public class QRCodeService {
     public QRCodeWithDueDateResponse registerWithDueDate(QRCodeWithDueDateRequest request) {
         validateQrCode(request);
         QRCode qrcode = QRCodeMapper.toEntity(request);
-        qrcode = save(qrcode);
+        qrcode = setDefaultAndSave(qrcode);
         return QRCodeMapper.toDueDateResponse(qrcode);
     }
 
@@ -45,15 +45,17 @@ public class QRCodeService {
         requestValidation.validateFutureDate(request, "dueDate");
     }
 
-    private QRCode save(QRCode qrCode) {
+    private QRCode setDefaultAndSave(QRCode qrCode) {
         qrCode.setUpdatedAt(LocalDateTime.now());
         if (qrCode.getStatus() == null) {
             qrCode.setStatus(StatusEnum.OPEN);
         }
-        qrCode.setExpirationDate(qrCode.getDueDate().plusDays(expirationDays));
+        if (qrCode.getExpirationDate() == null) {
+            qrCode.setExpirationDate(qrCode.getDueDate().plusDays(expirationDays));
+        }
         return qrCodeRepository.save(qrCode);
     }
 
-    //todo: h2 properties
+    //todo: colocar txid como unique?
 
 }
