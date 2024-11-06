@@ -13,6 +13,7 @@ import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class QRCodeController {
 
     @Operation(summary = "Register QRCode without due date")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "201"),
             @ApiResponse(responseCode = "400", content = @Content),
             @ApiResponse(responseCode = "422", content = @Content)
     })
@@ -42,7 +43,7 @@ public class QRCodeController {
         log.info("Beginning register QRCode");
         var response = qrCodeService.register(request);
         log.info("Ending register QRCode");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }

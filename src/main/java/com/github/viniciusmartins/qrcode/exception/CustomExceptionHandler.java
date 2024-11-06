@@ -22,7 +22,7 @@ public class CustomExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler({SQLException.class, DataAccessException.class, NullPointerException.class})
+    @ExceptionHandler({SQLException.class, DataAccessException.class})
     public ResponseEntity<List<Error>> handleUnexpectedException(Exception e) {
         log.error("ExceptionHandler: Unexpected exception", e);
         return buildErrorsResponse(List.of(ErrorDTO.builder()
