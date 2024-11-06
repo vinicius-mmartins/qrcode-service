@@ -5,6 +5,7 @@ import com.github.viniciusmartins.qrcode.dto.IQRCodeRequest;
 import com.github.viniciusmartins.qrcode.entity.enums.StatusEnum;
 import com.github.viniciusmartins.qrcode.exception.BadRequestException;
 import com.github.viniciusmartins.qrcode.exception.ErrorCodeEnum;
+import com.github.viniciusmartins.qrcode.validation.interfaces.QRCodeRequestValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

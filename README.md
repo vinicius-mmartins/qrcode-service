@@ -189,6 +189,21 @@ Data de vencimento no passado:
 ]
 ```
 
-## Outras Funcionalidades
-- Pra listar como funciona alguma coisa. Ex: mdc.
+### Swagger
 
+```
+http://localhost:8080/swagger-ui/index.html#/
+```
+
+## Orientações sobre o projeto
+
+- Incluir novas mensagens de erro no arquivo `messages.properties` ou reutilizar as existentes onde adequado.
+- Para melhor rastreabilidade no *logs* adotamos o uso do recurso `MDC` em conjunto com uma tag de log com identificador único.
+Ilustração:
+```
+05-11-2024 22:17:14.110 [http-nio-8080-exec-2] INFO  c.g.v.q.controller.QRCodeController: QRCODE/TXID=c435a648-31ce-4120-ae62-b4fec44f6e68-- Beginning register QRCode 
+05-11-2024 22:17:14.115 [http-nio-8080-exec-2] ERROR c.g.v.q.service.QRCodeServiceImpl: QRCODE/TXID=c435a648-31ce-4120-ae62-b4fec44f6e68-- QRCode already exists with txid: c435a648-31ce-4120-ae62-b4fec44f6e68-- 
+05-11-2024 22:17:14.122 [http-nio-8080-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver:  Resolved [com.github.viniciusmartins.qrcode.exception.UnprocessableEntityException] 
+```
+- Criar uma interface de controller não é necessário, mas para não poluir o controller segregamos todas as anotações do swagger
+em interfaces.

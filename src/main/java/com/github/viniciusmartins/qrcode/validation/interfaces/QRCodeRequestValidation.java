@@ -1,4 +1,4 @@
-package com.github.viniciusmartins.qrcode.validation;
+package com.github.viniciusmartins.qrcode.validation.interfaces;
 
 import com.github.viniciusmartins.qrcode.dto.IQRCodeRequest;
 

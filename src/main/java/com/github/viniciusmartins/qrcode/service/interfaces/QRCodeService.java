@@ -1,4 +1,4 @@
-package com.github.viniciusmartins.qrcode.service;
+package com.github.viniciusmartins.qrcode.service.interfaces;
 
 import com.github.viniciusmartins.qrcode.dto.QRCodeRequest;
 import com.github.viniciusmartins.qrcode.dto.QRCodeResponse;
