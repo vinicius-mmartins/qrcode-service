@@ -11,24 +11,184 @@ Serviço responsável pelo cadastro de QRCodes.
 ## Comandos: como executar o projeto
 
 Para executar o projeto basta utilizar o comando:
-```
+```shell
 ./gradlew bootRun
 ```
 
 Para rodar todos os testes:
-```
+```shell
 ./gradlew test
 ```
 
 Para construir o artefato:
-```
+```shell
 ./gradlew clean build
 ```
 
 ## Endpoints
 
-colocar endpoint, resposta, msgs de erro.
+### QRCode Imediato
+
+Cadastrar um QRCode imediato:
+```shell
+curl --location 'localhost:8080/api/v1/qrcodes' \
+--header 'Content-Type: application/json' \
+--data '{
+    "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
+    "value": "1.0",
+    "status":"CANCELED"
+}''
+```
+
+#### Sucesso
+
+Http Status: 201
+
+```json
+{
+  "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
+  "value": "1.0",
+  "description": null,
+  "status": "CANCELED"
+}
+```
+
+#### Erro: respostas esperadas
+
+
+- Caso QRCode com determinado txid já exista:
+
+Http Status 422
+
+```json
+[
+    {
+        "code": "ALREADY_REGISTERED",
+        "message": "QRCode already registered"
+    }
+]
+```
+
+- Validações:
+
+Http Status 400
+
+Campos obrigatórios não informados:
+```json
+[
+    {
+        "code": "REQUIRED_FIELD",
+        "message": "Field txid is required"
+    },
+    {
+        "code": "REQUIRED_FIELD",
+        "message": "Field value is required"
+    }
+]
+```
+
+Valor com formato inválido:
+```json
+[
+    {
+        "code": "INVALID_FIELD",
+        "message": "Numeric field value has a invalid format. Try value like 123.45"
+    }
+]
+```
+
+Valor informado menor que zero:
+```json
+[
+    {
+        "code": "INVALID_FIELD",
+        "message": "Numeric field value should be greater then Zero"
+    }
+]
+```
+
+Status informado não permitido:
+```json
+[
+  {
+    "code": "INVALID_FIELD",
+    "message": "Status doesnt match the expected values"
+  }
+]
+```
+
+### QRCode Imediato com data de vencimento
+
+Cadastrar um QRCode imediato com data de vencimento:
+```shell
+curl --location 'localhost:8080/api/v1/qrcodes/with-due-date' \
+--header 'Content-Type: application/json' \
+--data '{
+    "txid": "ef6b22b3-e866-4b76-8e83-6877e2d0ad2f",
+    "value": "39.90",
+    "dueDate": "2025-01-01"
+}'
+```
+
+#### Sucesso
+
+Http Status: 201
+
+```json
+{
+  "txid": "ef6b22b3-e866-4b76-8e83-6877e2d0ad2f",
+  "value": "39.90",
+  "dueDate": "2025-01-01",
+  "description": null,
+  "status": "OPEN"
+}
+```
+
+#### Erro: respostas esperadas
+
+As validações são as mesmas do QRCode Imediato,
+incluindo somente a validação da data de vencimento.
+
+Http Status 400
+
+Campos obrigatórios não informados:
+```json
+[
+  {
+    "code": "REQUIRED_FIELD",
+    "message": "Field value is required"
+  },
+  {
+    "code": "REQUIRED_FIELD",
+    "message": "Field txid is required"
+  },
+  {
+    "code": "REQUIRED_FIELD",
+    "message": "Field dueDate is required"
+  }
+]
+```
+
+Data de vencimento com formato inválido:
+```json
+[
+    {
+        "code": "INVALID_FIELD",
+        "message": "Date field value has a invalid format. Try pattern yyyy-MM-dd"
+    }
+]
+```
+
+Data de vencimento no passado:
+```json
+[
+    {
+        "code": "INVALID_FIELD",
+        "message": "Date field dueDate should be a future date"
+    }
+]
+```
 
 ## Outras Funcionalidades
-Pra listar como funciona alguma coisa. Ex: mdc.
+- Pra listar como funciona alguma coisa. Ex: mdc.
 
