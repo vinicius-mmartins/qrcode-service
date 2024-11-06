@@ -1,6 +1,11 @@
 package com.github.viniciusmartins.qrcode.service;
 
-import com.github.viniciusmartins.qrcode.dto.*;
+import com.github.viniciusmartins.qrcode.dto.ErrorDTO;
+import com.github.viniciusmartins.qrcode.dto.IQRCodeRequest;
+import com.github.viniciusmartins.qrcode.dto.QRCodeRequest;
+import com.github.viniciusmartins.qrcode.dto.QRCodeResponse;
+import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
+import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateResponse;
 import com.github.viniciusmartins.qrcode.entity.QRCode;
 import com.github.viniciusmartins.qrcode.entity.enums.StatusEnum;
 import com.github.viniciusmartins.qrcode.exception.ErrorCodeEnum;
@@ -8,8 +13,6 @@ import com.github.viniciusmartins.qrcode.exception.UnprocessableEntityException;
 import com.github.viniciusmartins.qrcode.mapper.QRCodeMapper;
 import com.github.viniciusmartins.qrcode.repository.QRCodeRepository;
 import com.github.viniciusmartins.qrcode.service.interfaces.QRCodeService;
-import com.github.viniciusmartins.qrcode.validation.interfaces.QRCodeRequestValidation;
-import com.github.viniciusmartins.qrcode.validation.QRCodeRequestValidationImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,19 +20,22 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.github.viniciusmartins.qrcode.validation.DateValidation.validateDateFormat;
+import static com.github.viniciusmartins.qrcode.validation.DateValidation.validateFutureDate;
+import static com.github.viniciusmartins.qrcode.validation.NumericValueValidation.validateValueFormat;
+import static com.github.viniciusmartins.qrcode.validation.NumericValueValidation.validateValueGreaterThenZero;
+import static com.github.viniciusmartins.qrcode.validation.QRCodeStatusValidation.validateStatus;
+
 @Service
 @Slf4j
 public class QRCodeServiceImpl implements QRCodeService {
 
-    private final QRCodeRequestValidation requestValidation;
     private final QRCodeRepository qrCodeRepository;
     private final Integer expirationDays;
 
-    public QRCodeServiceImpl(QRCodeRequestValidationImpl requestValidation,
-                             QRCodeRepository qrCodeRepository,
+    public QRCodeServiceImpl(QRCodeRepository qrCodeRepository,
                              @Value("${qrcode.immediate.expiration-days}")
                              Integer expirationDays) {
-        this.requestValidation = requestValidation;
         this.qrCodeRepository = qrCodeRepository;
         this.expirationDays = expirationDays;
     }
@@ -53,15 +59,15 @@ public class QRCodeServiceImpl implements QRCodeService {
     }
 
     private void validateQrCode(IQRCodeRequest request) {
-        requestValidation.validateValueFormat(request);
-        requestValidation.validateValueGreaterThenZero(request);
-        requestValidation.validadeStatus(request);
+        validateValueFormat(request.value(), "value");
+        validateValueGreaterThenZero(request.value(), "value");
+        validateStatus(request.status(), "status");
     }
 
     private void validateQrCodeWithDueDate(IQRCodeRequest request) {
         validateQrCode(request);
-        requestValidation.validateDateFormat(request);
-        requestValidation.validateFutureDate(request, "dueDate");
+        validateDateFormat(request.dueDate(), "dueDate");
+        validateFutureDate(request.dueDate(), "dueDate");
     }
 
     private void checkIfPresent(QRCode qrcode) {
