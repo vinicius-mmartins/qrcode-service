@@ -36,8 +36,24 @@ curl --location 'localhost:8080/api/v1/qrcodes' \
 --data '{
     "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
     "value": "1.0",
-    "status":"CANCELED"
+    "status":"OPEN",
+    "description":"QRCode de teste"
 }''
+```
+
+Parâmetros da requisição:
+```
+tdix: Obrigatório. Identificador único (uuid) do QRCode. Pode ser usado para idempotência. Poderia ter outro nome.
+value: Obrigatório. Valor do QRCode.
+status: Opcional. Status do QRCode. Valores possíveis no cadastro: OPEN. Default: OPEN.
+Todos valores de status: OPEN, PAID, EXPIRED, CANCELED.
+description: Opcional. Descrição do QRCode.
+```
+Parâmetros a serem criados e salvos na base:
+```
+expiration_date: Data de expiração do QRCode. Calculado de acordo com o vencimento e tempo expiração padrão parametrizado.
+created_at: Data de criação do QRCode.
+updated_at: Data de atualização do QRCode.
 ```
 
 #### Sucesso
@@ -48,8 +64,8 @@ Http Status: 201
 {
   "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
   "value": "1.0",
-  "description": null,
-  "status": "CANCELED"
+  "description": "QRCode de teste",
+  "status": "OPEN"
 }
 ```
 
@@ -126,8 +142,25 @@ curl --location 'localhost:8080/api/v1/qrcodes/with-due-date' \
 --data '{
     "txid": "ef6b22b3-e866-4b76-8e83-6877e2d0ad2f",
     "value": "39.90",
-    "dueDate": "2025-01-01"
+    "dueDate": "2025-01-01",
+    "status":"OPEN",
+    "description":"QRCode de teste 2"
 }'
+```
+
+Parâmetros da requisição:
+```
+tdix: Obrigatório. Identificador único (uuid) do QRCode. Pode ser usado para idempotência. Poderia ter outro nome.
+value: Obrigatório. Valor do QRCode.
+status: Opcional. Status do QRCode. Valores possíveis no cadastro: OPEN. Default: OPEN.
+Todos valores de status: OPEN, PAID, EXPIRED, CANCELED.
+description: Opcional. Descrição do QRCode.
+```
+Parâmetros a serem criados e salvos na base:
+```
+expiration_date: Data de expiração do QRCode. Calculado de acordo com o vencimento e tempo expiração padrão parametrizado.
+created_at: Data de criação do QRCode.
+updated_at: Data de atualização do QRCode.
 ```
 
 #### Sucesso
@@ -139,7 +172,7 @@ Http Status: 201
   "txid": "ef6b22b3-e866-4b76-8e83-6877e2d0ad2f",
   "value": "39.90",
   "dueDate": "2025-01-01",
-  "description": null,
+  "description": "QRCode de teste 2",
   "status": "OPEN"
 }
 ```
