@@ -4,7 +4,6 @@ import com.github.viniciusmartins.qrcode.entity.QRCode;
 import com.github.viniciusmartins.qrcode.integration.IntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
@@ -12,6 +11,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,7 +25,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 400 when trying to register a QRCode without required fields")
     public void testRegister_withoutRequiredFields() throws Exception {
         MvcResult result = mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {}
                                 """))
@@ -42,7 +42,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 400 when trying to register a QRCode with invalid value format")
     public void testRegister_withInvalidValueFormat() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                     "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
@@ -60,7 +60,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 400 when trying to register a QRCode with value less then zero")
     public void testRegister_withValueLessThenZero() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                     "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
@@ -78,7 +78,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 400 when sending a invalid status")
     public void testRegister_withInvalidStatus() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
@@ -98,7 +98,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     public void testRegister_withSameTxid() throws Exception {
         // cadastra qrcode
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
@@ -109,7 +109,7 @@ public class QRCodeControllerTest extends IntegrationTest {
                 .andExpect(status().isCreated());
         // repete a requisição e retorna erro (txid garante idempotencia no insert)
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "c435a648-31ce-4120-ae62-b4fec44f6e68",
@@ -127,7 +127,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 201 and return default status OPEN")
     public void testRegister_withDefaultStatus() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "3dbb0873-a603-4a37-845d-0495edae5554",
@@ -147,7 +147,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 201 and save qrcode with dates: expiration, created and updated")
     public void testRegister_withDefaultValues() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "095dbcf0-f14f-4fc2-90d0-90f44e0998d2",
@@ -172,7 +172,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 400 when trying to register a QRCode with invalid initial status")
     public void testRegister_withInvalidInitialStatus() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "9e671d81-93db-470a-b4ec-a577f58bc5d2",
@@ -191,7 +191,7 @@ public class QRCodeControllerTest extends IntegrationTest {
     @DisplayName("Should return 400 when trying to register a QRCode with invalid txid format")
     public void testRegister_withInvalidTxidFormat() throws Exception {
         mockMvc.perform(post(ENDPOINT)
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content("""
                                 {
                                   "txid": "9e671d81-93db-470a-b4ec-a577f58bc5d2a-JISAJISJA",
