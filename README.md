@@ -25,6 +25,16 @@ Para construir o artefato:
 ./gradlew clean build
 ```
 
+Construir imagem Docker:
+```shell
+docker build -t qrcode-service .
+```
+
+Executar imagem Docker:
+```shell
+docker run -p 8080:8080 qrcode-service
+```
+
 ## Endpoints
 
 ### QRCode Imediato
@@ -52,6 +62,7 @@ description: Opcional. Descrição do QRCode.
 Parâmetros a serem criados e salvos na base:
 ```
 expiration_date: Data de expiração do QRCode. Calculado de acordo com o vencimento e tempo expiração padrão parametrizado.
+Atualmente dois dias apartir da criação pra QRCode sem vencimento e dois dias a partir do vencimento para QRCode com vencimento.
 created_at: Data de criação do QRCode.
 updated_at: Data de atualização do QRCode.
 ```
@@ -179,6 +190,7 @@ description: Opcional. Descrição do QRCode.
 Parâmetros a serem criados e salvos na base:
 ```
 expiration_date: Data de expiração do QRCode. Calculado de acordo com o vencimento e tempo expiração padrão parametrizado.
+Atualmente dois dias apartir da criação pra QRCode sem vencimento e dois dias a partir do vencimento para QRCode com vencimento.
 created_at: Data de criação do QRCode.
 updated_at: Data de atualização do QRCode.
 ```
