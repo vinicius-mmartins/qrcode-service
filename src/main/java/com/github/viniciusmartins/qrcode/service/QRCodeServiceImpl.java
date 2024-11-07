@@ -86,6 +86,9 @@ public class QRCodeServiceImpl implements QRCodeService {
 
     private QRCode setDefaultAndSave(QRCode qrCode) {
         qrCode.setUpdatedAt(LocalDateTime.now());
+        if (qrCode.getCreatedAt() == null) {
+            qrCode.setCreatedAt(LocalDateTime.now());
+        }
         if (qrCode.getStatus() == null) {
             qrCode.setStatus(StatusEnum.OPEN);
         }

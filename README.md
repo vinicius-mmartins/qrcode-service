@@ -174,7 +174,7 @@ Data de vencimento com formato inválido:
 [
     {
         "code": "INVALID_FIELD",
-        "message": "Date field value has a invalid format. Try pattern yyyy-MM-dd"
+        "message": "Date field dueDate has a invalid format. Try pattern yyyy-MM-dd"
     }
 ]
 ```

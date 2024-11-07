@@ -37,6 +37,8 @@ public class QRCode {
     private StatusEnum status;
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
     @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
     @Column(name = "due_date")
