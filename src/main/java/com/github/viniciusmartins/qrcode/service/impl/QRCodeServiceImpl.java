@@ -1,4 +1,4 @@
-package com.github.viniciusmartins.qrcode.service;
+package com.github.viniciusmartins.qrcode.service.impl;
 
 import com.github.viniciusmartins.qrcode.dto.ErrorDTO;
 import com.github.viniciusmartins.qrcode.dto.IQRCodeRequest;
@@ -12,7 +12,7 @@ import com.github.viniciusmartins.qrcode.exception.ErrorCodeEnum;
 import com.github.viniciusmartins.qrcode.exception.UnprocessableEntityException;
 import com.github.viniciusmartins.qrcode.mapper.QRCodeMapper;
 import com.github.viniciusmartins.qrcode.repository.QRCodeRepository;
-import com.github.viniciusmartins.qrcode.service.interfaces.QRCodeService;
+import com.github.viniciusmartins.qrcode.service.QRCodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

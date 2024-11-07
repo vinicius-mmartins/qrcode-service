@@ -1,4 +1,4 @@
-package com.github.viniciusmartins.qrcode.controller.interfaces;
+package com.github.viniciusmartins.qrcode.controller.swagger;
 
 import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
 import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateResponse;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 
 
 @Tag(name = "Immediate QRCode with due date")
-public interface QRCodeWithDueDateController {
+public interface IQRCodeWithDueDateController {
 
     @Operation(summary = "Register QRCode with due date")
     @ApiResponses(value = {
