@@ -19,7 +19,7 @@ public record QRCodeWithDueDateRequest(
         String dueDate,
         @Schema(example = "Pagamento Pão de Queijo")
         String description,
-        @Schema(example = "OPEN")
+        @Schema(example = "OPEN", description = "Values allowed in registration: OPEN")
         String status
 ) implements IQRCodeRequest {
 }

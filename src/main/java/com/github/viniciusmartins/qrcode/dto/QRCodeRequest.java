@@ -16,7 +16,7 @@ public record QRCodeRequest(
         String value,
         @Schema(example = "Pagamento da Jantinha")
         String description,
-        @Schema(example = "OPEN")
+        @Schema(example = "OPEN", description = "Values allowed in registration: OPEN")
         String status
 ) implements IQRCodeRequest {
 }
