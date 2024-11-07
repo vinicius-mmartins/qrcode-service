@@ -22,11 +22,11 @@ public class CustomExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler({SQLException.class, DataAccessException.class, NullPointerException.class})
+    @ExceptionHandler({SQLException.class, DataAccessException.class})
     public ResponseEntity<List<Error>> handleUnexpectedException(Exception e) {
         log.error("ExceptionHandler: Unexpected exception", e);
         return buildErrorsResponse(List.of(ErrorDTO.builder()
-                        .code(ErrorCodeEnum.INTERNAL_SERVER_ERROR.name())
+                        .code(ErrorCodeEnum.INTERNAL_SERVER_ERROR)
                         .message("internal.server.error")
                         .build()),
                 HttpStatus.INTERNAL_SERVER_ERROR
@@ -37,22 +37,27 @@ public class CustomExceptionHandler {
     public ResponseEntity<List<Error>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<ErrorDTO> errors = e.getFieldErrors().stream()
                 .map(fieldError -> ErrorDTO.builder()
-                        .code(ErrorCodeEnum.REQUIRED_FIELD.name())
+                        .code(ErrorCodeEnum.REQUIRED_FIELD)
                         .message(fieldError.getDefaultMessage())
-                        .arg(fieldError.getField())
+                        .msgArg(fieldError.getField())
                         .build())
                 .toList();
         return buildErrorsResponse(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<List<Error>> handleCustomException(CustomException e) {
+        return buildErrorsResponse(List.of(e.getErrorDTO()), e.getHttpStatus());
+    }
+
     private ResponseEntity<List<Error>> buildErrorsResponse(List<ErrorDTO> errors, HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(
-                errors.stream().map(error -> new Error(error.code(), buildErrorMessage(error))).toList()
+                errors.stream().map(error -> new Error(error.code().name(), buildErrorMessage(error))).toList()
         );
     }
 
     private String buildErrorMessage(ErrorDTO error) {
-        return messageSource.getMessage(error.message(), new Object[]{error.arg()}, Locale.getDefault());
+        return messageSource.getMessage(error.message(), new Object[]{error.msgArg()}, Locale.getDefault());
     }
 
     public record Error(

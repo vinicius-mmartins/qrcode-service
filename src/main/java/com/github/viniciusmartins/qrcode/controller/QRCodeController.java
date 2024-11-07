@@ -1,8 +1,8 @@
 package com.github.viniciusmartins.qrcode.controller;
 
-import com.github.viniciusmartins.qrcode.controller.swagger.IQRCodeWithDueDateController;
-import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateRequest;
-import com.github.viniciusmartins.qrcode.dto.QRCodeWithDueDateResponse;
+import com.github.viniciusmartins.qrcode.controller.swagger.IQRCodeController;
+import com.github.viniciusmartins.qrcode.dto.QRCodeRequest;
+import com.github.viniciusmartins.qrcode.dto.QRCodeResponse;
 import com.github.viniciusmartins.qrcode.service.QRCodeService;
 import jakarta.validation.Valid;
 import lombok.Cleanup;
@@ -17,22 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/qrcodes/with-due-date")
+@RequestMapping("/api/v1/qrcodes")
 @RequiredArgsConstructor
 @Slf4j
-public class QRCodeWithDueDateController implements IQRCodeWithDueDateController {
+public class QRCodeController implements IQRCodeController {
 
-    private static final String LOG_TAG = "QRCODE_WITH_DUE_DATE/TXID";
+    private static final String LOG_TAG = "QRCODE/TXID";
 
     private final QRCodeService qrCodeService;
 
     @Override
     @PostMapping
-    public ResponseEntity<QRCodeWithDueDateResponse> registerQrcode(@RequestBody @Valid QRCodeWithDueDateRequest request) {
+    public ResponseEntity<QRCodeResponse> registerQrcode(@RequestBody @Valid QRCodeRequest request) {
         @Cleanup var mdc = MDC.putCloseable(LOG_TAG, request.txid());
-        log.info("Begin register QRCode with due date");
-        var response = qrCodeService.registerWithDueDate(request);
-        log.info("Ending register QRCode with due date");
+        log.info("Beginning register QRCode");
+        var response = qrCodeService.register(request);
+        log.info("Ending register QRCode");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -1,11 +1,12 @@
 package com.github.viniciusmartins.qrcode.dto;
 
+import com.github.viniciusmartins.qrcode.exception.ErrorCodeEnum;
 import lombok.Builder;
 
 @Builder
 public record ErrorDTO(
-        String code,
+        ErrorCodeEnum code,
         String message,
-        String arg
+        String msgArg
 ) {
 }

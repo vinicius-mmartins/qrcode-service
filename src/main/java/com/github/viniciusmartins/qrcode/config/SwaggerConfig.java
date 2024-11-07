@@ -13,7 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("qrcode-service")
-                        .description("API responsável pelo cadastro de QRCode")
+                        .description("API responsabel for managing QRCodes")
                         .version("1.0.0")
                 );
     }
