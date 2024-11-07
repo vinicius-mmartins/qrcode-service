@@ -4,7 +4,7 @@ create table if not exists qrcode (
     txid varchar not null unique,
     qrcode_value numeric not null,
     description varchar,
-    status varchar default 'OPEN',
+    status varchar default 'OPEN' check (status in ('OPEN', 'PAID', 'EXPIRED', 'CANCELED')),
     expiration_date date not null,
     due_date date,
     created_at timestamp not null,
