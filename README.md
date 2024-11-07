@@ -123,13 +123,33 @@ Valor informado menor que zero:
 ]
 ```
 
-Status informado não permitido:
+Status informado não permitido ou tem formato invalido:
 ```json
 [
   {
     "code": "INVALID_FIELD",
     "message": "Status doesnt match the expected values"
   }
+]
+```
+
+Validação de status inicial:
+```json
+[
+    {
+        "code": "INVALID_FIELD",
+        "message": "Status CANCELED is invalid for initial status"
+    }
+]
+```
+
+Validação uuid valido para o campo txid:
+```json
+[
+    {
+        "code": "INVALID_FIELD",
+        "message": "Field txid expected to be a valid UUID"
+    }
 ]
 ```
 

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QRCodeStatusValidation {
 
-    public static void validateStatus(String status, String fieldName) {
+    public static void validateStatus(String status) {
         if (status != null) {
             try {
                 StatusEnum.valueOf(status);
@@ -27,4 +27,16 @@ public class QRCodeStatusValidation {
         }
     }
 
+    public static void validateInitialStatus(String status) {
+        if (status != null && !StatusEnum.OPEN.name().equals(status)) {
+            log.error("Invalid request initial status: {}", status);
+            throw new BadRequestException(
+                    ErrorDTO.builder()
+                            .code(ErrorCodeEnum.INVALID_FIELD)
+                            .message("invalid.field.initial.status")
+                            .msgArg(status)
+                            .build()
+            );
+        }
+    }
 }

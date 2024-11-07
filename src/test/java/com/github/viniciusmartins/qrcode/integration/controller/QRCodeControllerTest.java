@@ -168,4 +168,41 @@ public class QRCodeControllerTest extends IntegrationTest {
         assertEquals(LocalDate.now(), qrcodeOpt.get().getCreatedAt().toLocalDate());
     }
 
+    @Test
+    @DisplayName("Should return 400 when trying to register a QRCode with invalid initial status")
+    public void testRegister_withInvalidInitialStatus() throws Exception {
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "txid": "9e671d81-93db-470a-b4ec-a577f58bc5d2",
+                                  "value": "1.0",
+                                  "status": "CANCELED"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("[0].code").value("INVALID_FIELD"))
+                .andExpect(jsonPath("[0].message")
+                        .value("Status CANCELED is invalid for initial status"));
+    }
+
+    @Test
+    @DisplayName("Should return 400 when trying to register a QRCode with invalid txid format")
+    public void testRegister_withInvalidTxidFormat() throws Exception {
+        mockMvc.perform(post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "txid": "9e671d81-93db-470a-b4ec-a577f58bc5d2a-JISAJISJA",
+                                  "value": "1.0"
+                                }
+                                """))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("[0].code").value("INVALID_FIELD"))
+                .andExpect(jsonPath("[0].message")
+                        .value("Field txid expected to be a valid UUID"));
+    }
+
 }

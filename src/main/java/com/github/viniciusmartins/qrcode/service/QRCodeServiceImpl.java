@@ -24,7 +24,9 @@ import static com.github.viniciusmartins.qrcode.validation.DateValidation.valida
 import static com.github.viniciusmartins.qrcode.validation.DateValidation.validateFutureDate;
 import static com.github.viniciusmartins.qrcode.validation.NumericValueValidation.validateValueFormat;
 import static com.github.viniciusmartins.qrcode.validation.NumericValueValidation.validateValueGreaterThenZero;
+import static com.github.viniciusmartins.qrcode.validation.QRCodeStatusValidation.validateInitialStatus;
 import static com.github.viniciusmartins.qrcode.validation.QRCodeStatusValidation.validateStatus;
+import static com.github.viniciusmartins.qrcode.validation.UUIDFormatValidation.validateUUIDFormat;
 
 @Service
 @Slf4j
@@ -59,9 +61,11 @@ public class QRCodeServiceImpl implements QRCodeService {
     }
 
     private void validateQrCode(IQRCodeRequest request) {
+        validateUUIDFormat(request.txid(), "txid");
         validateValueFormat(request.value(), "value");
         validateValueGreaterThenZero(request.value(), "value");
-        validateStatus(request.status(), "status");
+        validateStatus(request.status());
+        validateInitialStatus(request.status());
     }
 
     private void validateQrCodeWithDueDate(IQRCodeRequest request) {

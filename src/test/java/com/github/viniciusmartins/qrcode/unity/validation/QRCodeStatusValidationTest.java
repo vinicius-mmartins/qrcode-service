@@ -16,11 +16,22 @@ public class QRCodeStatusValidationTest {
     @Test
     public void validateStatusTest() {
         try {
-            QRCodeStatusValidation.validateStatus("invalidStatus", "status");
+            QRCodeStatusValidation.validateStatus("invalidStatus");
             fail("Testing exception: test shouldn't get to this line");
         } catch (BadRequestException e) {
             assertEquals(ErrorCodeEnum.INVALID_FIELD, e.getErrorDTO().code());
             assertEquals("invalid.field.status", e.getErrorDTO().message());
+        }
+    }
+
+    @Test
+    public void validateInitialStatusTest() {
+        try {
+            QRCodeStatusValidation.validateInitialStatus("CANCELED");
+            fail("Testing exception: test shouldn't get to this line");
+        } catch (BadRequestException e) {
+            assertEquals(ErrorCodeEnum.INVALID_FIELD, e.getErrorDTO().code());
+            assertEquals("invalid.field.initial.status", e.getErrorDTO().message());
         }
     }
 
